@@ -4,15 +4,38 @@ import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
 
+function showFatalError(message) {
+  const el = document.createElement('div')
+  el.className = 'fatal-error'
+  el.textContent = message
+  document.body.appendChild(el)
+}
+
+window.addEventListener('error', (event) => {
+  showFatalError(event.message || 'Lỗi không xác định')
+})
+
+window.addEventListener('unhandledrejection', (event) => {
+  const reason = event.reason
+  const message = reason instanceof Error ? reason.message : String(reason)
+  showFatalError(message)
+})
+
 function loadVoices() {
-  window.speechSynthesis?.getVoices()
+  try {
+    window.speechSynthesis?.getVoices()
+  } catch {
+    /* Safari có thể chưa sẵn sàng */
+  }
 }
 
 function Root() {
   useEffect(() => {
     loadVoices()
-    window.speechSynthesis?.addEventListener('voiceschanged', loadVoices)
-    return () => window.speechSynthesis?.removeEventListener('voiceschanged', loadVoices)
+    const synth = window.speechSynthesis
+    if (!synth) return undefined
+    synth.addEventListener('voiceschanged', loadVoices)
+    return () => synth.removeEventListener('voiceschanged', loadVoices)
   }, [])
 
   return (
@@ -24,5 +47,9 @@ function Root() {
 
 const rootEl = document.getElementById('root')
 if (rootEl) {
-  createRoot(rootEl).render(<Root />)
+  try {
+    createRoot(rootEl).render(<Root />)
+  } catch (error) {
+    showFatalError(error instanceof Error ? error.message : String(error))
+  }
 }
