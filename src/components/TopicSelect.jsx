@@ -1,0 +1,39 @@
+import { motion } from 'framer-motion';
+import { topics } from '../data/topics';
+import BigButton from './BigButton';
+
+export default function TopicSelect({ gameTitle, onSelectTopic, onBack }) {
+  return (
+    <div className="screen topic-select">
+      <header className="screen-header">
+        <button type="button" className="back-button" onClick={onBack} aria-label="Quay lại">
+          ⬅️
+        </button>
+        <div className="screen-header__titles">
+          <h2 className="screen-header__title">Chọn chủ đề</h2>
+          {gameTitle && <p className="screen-header__game">{gameTitle}</p>}
+        </div>
+      </header>
+
+      <div className="topic-select__grid">
+        {topics.map((topic, index) => (
+          <motion.div
+            key={topic.id}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.05 }}
+          >
+            <BigButton
+              emoji={topic.emoji}
+              color={topic.color}
+              size="medium"
+              onClick={() => onSelectTopic(topic.id)}
+            >
+              {topic.name}
+            </BigButton>
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
+}
