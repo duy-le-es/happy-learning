@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { lazy, Suspense, useState } from 'react';
 import { getTopicById } from './data/topics';
 import { GAMES, GAME_TITLES } from './constants/games';
 import { unlockAudio } from './utils/audioUnlock';
 import { enterFullscreen } from './utils/fullscreen';
 import HomeScreen from './components/HomeScreen';
 import TopicSelect from './components/TopicSelect';
-import MatchLevelSelect from './components/MatchLevelSelect';
-import Game2Quiz from './components/Game2Quiz';
-import Game1Match from './components/Game1Match';
-import Game3DragDrop from './components/Game3DragDrop';
+import LoadingScreen from './components/LoadingScreen';
+
+const MatchLevelSelect = lazy(() => import('./components/MatchLevelSelect'));
+const Game2Quiz = lazy(() => import('./components/Game2Quiz'));
+const Game1Match = lazy(() => import('./components/Game1Match'));
+const Game3DragDrop = lazy(() => import('./components/Game3DragDrop'));
 
 const SCREENS = {
   HOME: 'home',
@@ -79,35 +81,37 @@ export default function App() {
           onBack={goHome}
         />
       )}
-      {screen === SCREENS.MATCH_LEVEL && topic && (
-        <MatchLevelSelect
-          topic={topic}
-          onSelectLevel={handleSelectMatchLevel}
-          onBack={handleBackFromLevel}
-        />
-      )}
-      {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.QUIZ && (
-        <Game2Quiz
-          topicId={selectedTopic}
-          onBack={() => setScreen(SCREENS.TOPICS)}
-          onHome={goHome}
-        />
-      )}
-      {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.MATCH && (
-        <Game1Match
-          topicId={selectedTopic}
-          pairCount={matchPairCount}
-          onBack={handleBackFromPlay}
-          onHome={goHome}
-        />
-      )}
-      {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.DRAG && (
-        <Game3DragDrop
-          topicId={selectedTopic}
-          onBack={() => setScreen(SCREENS.TOPICS)}
-          onHome={goHome}
-        />
-      )}
+      <Suspense fallback={<LoadingScreen />}>
+        {screen === SCREENS.MATCH_LEVEL && topic && (
+          <MatchLevelSelect
+            topic={topic}
+            onSelectLevel={handleSelectMatchLevel}
+            onBack={handleBackFromLevel}
+          />
+        )}
+        {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.QUIZ && (
+          <Game2Quiz
+            topicId={selectedTopic}
+            onBack={() => setScreen(SCREENS.TOPICS)}
+            onHome={goHome}
+          />
+        )}
+        {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.MATCH && (
+          <Game1Match
+            topicId={selectedTopic}
+            pairCount={matchPairCount}
+            onBack={handleBackFromPlay}
+            onHome={goHome}
+          />
+        )}
+        {screen === SCREENS.PLAY && selectedTopic && selectedGame === GAMES.DRAG && (
+          <Game3DragDrop
+            topicId={selectedTopic}
+            onBack={() => setScreen(SCREENS.TOPICS)}
+            onHome={goHome}
+          />
+        )}
+      </Suspense>
     </div>
   );
 }

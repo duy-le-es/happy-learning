@@ -1,19 +1,11 @@
-import { useCallback, useRef } from 'react';
-import { preloadNaturalVoice, synthesizeNaturalVoice } from '../utils/edgeTts';
+import { useCallback } from 'react';
 import { playAudioSrc } from '../utils/audioPlayer';
 import { speakVietnamese, stopBrowserTts } from '../utils/browserTts';
 import { unlockAudio } from '../utils/audioUnlock';
 
 export function useSpeech() {
-  const activeAudioRef = useRef(null);
-
   const stop = useCallback(() => {
     stopBrowserTts();
-    if (activeAudioRef.current) {
-      activeAudioRef.current.pause();
-      activeAudioRef.current.currentTime = 0;
-      activeAudioRef.current = null;
-    }
   }, []);
 
   const speak = useCallback(async (text, { audioSrc } = {}) => {
@@ -27,16 +19,8 @@ export function useSpeech() {
         await playAudioSrc(audioSrc);
         return;
       } catch {
-        /* file MP3 không có */
+        /* thử giọng trình duyệt */
       }
-    }
-
-    try {
-      const blobUrl = await synthesizeNaturalVoice(text);
-      await playAudioSrc(blobUrl);
-      return;
-    } catch {
-      /* thử giọng trình duyệt */
     }
 
     await speakVietnamese(text);
@@ -44,15 +28,9 @@ export function useSpeech() {
 
   const preload = useCallback((entries) => {
     entries.forEach((entry) => {
-      if (typeof entry === 'string') {
-        if (entry.startsWith('/sounds/')) {
-          const audio = new Audio(entry);
-          audio.preload = 'auto';
-        } else {
-          preloadNaturalVoice(entry);
-        }
-      } else if (entry?.text) {
-        preloadNaturalVoice(entry.text);
+      if (typeof entry === 'string' && entry.startsWith('/sounds/')) {
+        const audio = new Audio(entry);
+        audio.preload = 'auto';
       }
     });
   }, []);

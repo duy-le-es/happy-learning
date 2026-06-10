@@ -2,6 +2,7 @@ import { StrictMode, useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
+import ErrorBoundary from './components/ErrorBoundary.jsx'
 
 function loadVoices() {
   window.speechSynthesis?.getVoices()
@@ -14,11 +15,18 @@ function Root() {
     return () => window.speechSynthesis?.removeEventListener('voiceschanged', loadVoices)
   }, [])
 
-  return <App />
+  return (
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  )
 }
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Root />
-  </StrictMode>,
-)
+const rootEl = document.getElementById('root')
+if (rootEl) {
+  createRoot(rootEl).render(
+    <StrictMode>
+      <Root />
+    </StrictMode>,
+  )
+}
