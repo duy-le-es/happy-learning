@@ -108,7 +108,7 @@ export default function Game3DragDrop({ topicId, onBack, onHome }) {
   const placedCount = Object.keys(placed).length;
 
   return (
-    <div className="screen game-drag" style={{ background: topic.bgGradient }}>
+    <div className="screen game-drag" style={{ '--screen-bg': topic.bgGradient }}>
       <header className="screen-header screen-header--light">
         <button type="button" className="back-button back-button--light" onClick={onBack} aria-label="Quay lại">
           ⬅️

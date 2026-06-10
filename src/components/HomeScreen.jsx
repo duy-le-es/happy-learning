@@ -1,5 +1,5 @@
 import BigButton from './BigButton';
-import { GAMES } from '../constants/games';
+import { GAME_LIST, GAME_TITLES } from '../constants/games';
 
 export default function HomeScreen({ onSelectGame }) {
   return (
@@ -11,29 +11,16 @@ export default function HomeScreen({ onSelectGame }) {
       </div>
 
       <div className="home-screen__games">
-        <BigButton
-          emoji="👆"
-          color="#6C63FF"
-          onClick={() => onSelectGame(GAMES.QUIZ)}
-        >
-          Chọn hình đúng
-        </BigButton>
-
-        <BigButton
-          emoji="🃏"
-          color="#FF6B6B"
-          onClick={() => onSelectGame(GAMES.MATCH)}
-        >
-          Tìm cặp giống nhau
-        </BigButton>
-
-        <BigButton
-          emoji="🎯"
-          color="#00B894"
-          onClick={() => onSelectGame(GAMES.DRAG)}
-        >
-          Kéo thả đúng chỗ
-        </BigButton>
+        {GAME_LIST.map((game) => (
+          <BigButton
+            key={game.id}
+            emoji={game.emoji}
+            color={game.color}
+            onClick={() => onSelectGame(game.id)}
+          >
+            {GAME_TITLES[game.id]}
+          </BigButton>
+        ))}
       </div>
     </div>
   );

@@ -105,7 +105,7 @@ export default function Game2Quiz({ topicId, onBack, onHome }) {
   }
 
   return (
-    <div className="screen game-quiz" style={{ background: topic.bgGradient }}>
+    <div className="screen game-quiz" style={{ '--screen-bg': topic.bgGradient }}>
       <header className="screen-header screen-header--light">
         <button type="button" className="back-button back-button--light" onClick={onBack} aria-label="Quay lại">
           ⬅️

@@ -8,7 +8,7 @@ export const MATCH_LEVELS = [
 
 export default function MatchLevelSelect({ topic, onSelectLevel, onBack }) {
   return (
-    <div className="screen level-select" style={{ background: topic.bgGradient }}>
+    <div className="screen level-select" style={{ '--screen-bg': topic.bgGradient }}>
       <header className="screen-header screen-header--light">
         <button type="button" className="back-button back-button--light" onClick={onBack} aria-label="Quay lại">
           ⬅️
