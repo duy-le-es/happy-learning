@@ -1,3 +1,5 @@
+import { getSpeechVoices, onVoicesChanged } from './speechVoices';
+
 const TTS_RATE = 0.82;
 const TTS_PITCH = 1.0;
 
@@ -21,7 +23,7 @@ function pickVietnameseVoice(voices) {
 
 function waitForVoices(timeoutMs = 2500) {
   return new Promise((resolve) => {
-    const voices = window.speechSynthesis?.getVoices() ?? [];
+    const voices = getSpeechVoices();
     if (voices.length > 0) {
       resolve(voices);
       return;
@@ -31,11 +33,11 @@ function waitForVoices(timeoutMs = 2500) {
     const finish = () => {
       if (settled) return;
       settled = true;
-      window.speechSynthesis?.removeEventListener('voiceschanged', finish);
-      resolve(window.speechSynthesis?.getVoices() ?? []);
+      cleanup();
+      resolve(getSpeechVoices());
     };
 
-    window.speechSynthesis?.addEventListener('voiceschanged', finish);
+    const cleanup = onVoicesChanged(finish);
     setTimeout(finish, timeoutMs);
   });
 }

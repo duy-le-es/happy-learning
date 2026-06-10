@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import ErrorBoundary from './components/ErrorBoundary.jsx'
+import { getSpeechVoices, onVoicesChanged } from './utils/speechVoices.js'
 
 function showFatalError(message) {
   const el = document.createElement('div')
@@ -21,21 +22,10 @@ window.addEventListener('unhandledrejection', (event) => {
   showFatalError(message)
 })
 
-function loadVoices() {
-  try {
-    window.speechSynthesis?.getVoices()
-  } catch {
-    /* Safari có thể chưa sẵn sàng */
-  }
-}
-
 function Root() {
   useEffect(() => {
-    loadVoices()
-    const synth = window.speechSynthesis
-    if (!synth) return undefined
-    synth.addEventListener('voiceschanged', loadVoices)
-    return () => synth.removeEventListener('voiceschanged', loadVoices)
+    getSpeechVoices()
+    return onVoicesChanged(getSpeechVoices)
   }, [])
 
   return (
