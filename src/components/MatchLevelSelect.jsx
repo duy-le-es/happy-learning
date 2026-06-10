@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import BigButton from './BigButton';
 
 export const MATCH_LEVELS = [
@@ -18,22 +17,16 @@ export default function MatchLevelSelect({ topic, onSelectLevel, onBack }) {
       </header>
 
       <div className="level-select__options">
-        {MATCH_LEVELS.map((level, index) => (
-          <motion.div
+        {MATCH_LEVELS.map((level) => (
+          <BigButton
             key={level.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            emoji={level.emoji}
+            color={topic.color}
+            subtitle={level.subtitle}
+            onClick={() => onSelectLevel(level.pairs)}
           >
-            <BigButton
-              emoji={level.emoji}
-              color={topic.color}
-              subtitle={level.subtitle}
-              onClick={() => onSelectLevel(level.pairs)}
-            >
-              {level.label}
-            </BigButton>
-          </motion.div>
+            {level.label}
+          </BigButton>
         ))}
       </div>
     </div>

@@ -34,7 +34,8 @@ body {
 
 body {
   font-family: var(--font-family);
-  background: var(--color-bg);
+  background: linear-gradient(160deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+  background-color: #667eea;
   color: var(--color-text);
   -webkit-font-smoothing: antialiased;
   user-select: none;
@@ -230,7 +231,13 @@ body {
   justify-content: center;
   gap: 4px;
   box-shadow: var(--shadow-button), var(--shadow-soft);
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.big-button:active:not(:disabled) {
+  transform: scale(0.95);
 }
 
 .big-button:disabled {

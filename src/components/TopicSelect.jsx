@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion';
 import { topics } from '../data/topics';
 import BigButton from './BigButton';
 
@@ -16,13 +15,8 @@ export default function TopicSelect({ gameTitle, onSelectTopic, onBack }) {
       </header>
 
       <div className="topic-select__grid">
-        {topics.map((topic, index) => (
-          <motion.div
-            key={topic.id}
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.05 }}
-          >
+        {topics.map((topic) => (
+          <div key={topic.id}>
             <BigButton
               emoji={topic.emoji}
               color={topic.color}
@@ -31,7 +25,7 @@ export default function TopicSelect({ gameTitle, onSelectTopic, onBack }) {
             >
               {topic.name}
             </BigButton>
-          </motion.div>
+          </div>
         ))}
       </div>
     </div>
