@@ -1,3 +1,8 @@
+export const PLAYER_MODES = {
+  SINGLE: 'single',
+  MULTI: 'multi',
+};
+
 export const GAMES = {
   QUIZ: 'quiz',
   MATCH: 'match',
@@ -17,6 +22,15 @@ export const GAMES = {
   TRACE: 'trace',
 };
 
+export const VERSUS_GAMES = {
+  QUIZ: 'versusQuiz',
+  SOUND: 'versusSound',
+  COUNT: 'versusCount',
+  BIGGER: 'versusBigger',
+  SHADOW: 'versusShadow',
+  COLOR: 'versusColor',
+};
+
 export const GAME_TITLES = {
   [GAMES.QUIZ]: 'Chọn hình đúng',
   [GAMES.MATCH]: 'Tìm cặp giống nhau',
@@ -34,9 +48,14 @@ export const GAME_TITLES = {
   [GAMES.EMOTION]: 'Cảm xúc',
   [GAMES.PUZZLE]: 'Ghép hình',
   [GAMES.TRACE]: 'Vẽ theo nét',
+  [VERSUS_GAMES.QUIZ]: 'Chọn hình đúng',
+  [VERSUS_GAMES.SOUND]: 'Nghe tiếng đoán',
+  [VERSUS_GAMES.COUNT]: 'Đếm số',
+  [VERSUS_GAMES.BIGGER]: 'Lớn hay nhỏ',
+  [VERSUS_GAMES.SHADOW]: 'Bóng đâu',
+  [VERSUS_GAMES.COLOR]: 'Chọn đúng màu',
 };
 
-/** Trò chơi không cần chọn chủ đề */
 export const STANDALONE_GAMES = new Set([
   GAMES.ORDER,
   GAMES.FEED,
@@ -45,11 +64,13 @@ export const STANDALONE_GAMES = new Set([
   GAMES.TRACE,
 ]);
 
+export const VERSUS_STANDALONE = new Set([VERSUS_GAMES.COLOR]);
+
 export const MATCH_LEVEL_GAMES = new Set([GAMES.MATCH]);
 
 export const DEFAULT_ROUNDS = 6;
 
-export const GAME_LIST = [
+export const SINGLE_PLAYER_LIST = [
   { id: GAMES.QUIZ, emoji: '👆', color: '#6C63FF' },
   { id: GAMES.MATCH, emoji: '🃏', color: '#FF6B6B' },
   { id: GAMES.DRAG, emoji: '🎯', color: '#00B894' },
@@ -67,3 +88,23 @@ export const GAME_LIST = [
   { id: GAMES.PUZZLE, emoji: '🧩', color: '#0984E3' },
   { id: GAMES.TRACE, emoji: '✏️', color: '#A29BFE' },
 ];
+
+export const MULTI_PLAYER_LIST = [
+  { id: VERSUS_GAMES.QUIZ, emoji: '👆', color: '#6C63FF' },
+  { id: VERSUS_GAMES.SOUND, emoji: '👂', color: '#E67E22' },
+  { id: VERSUS_GAMES.COUNT, emoji: '🔢', color: '#F39C12' },
+  { id: VERSUS_GAMES.BIGGER, emoji: '📏', color: '#9B59B6' },
+  { id: VERSUS_GAMES.SHADOW, emoji: '👤', color: '#636E72' },
+  { id: VERSUS_GAMES.COLOR, emoji: '🌈', color: '#6C5CE7' },
+];
+
+const ALL_VERSUS = new Set(Object.values(VERSUS_GAMES));
+
+export function isVersusGame(gameId) {
+  return ALL_VERSUS.has(gameId);
+}
+
+export function needsTopic(gameId) {
+  if (isVersusGame(gameId)) return !VERSUS_STANDALONE.has(gameId);
+  return !STANDALONE_GAMES.has(gameId);
+}

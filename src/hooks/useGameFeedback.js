@@ -44,6 +44,8 @@ export function useGameFeedback() {
     stop,
     preload,
     playTap,
+    playCorrect,
+    playWrong,
     showCelebration,
     locked,
     setLocked,

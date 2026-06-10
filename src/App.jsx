@@ -1,12 +1,16 @@
 import { useState } from 'react';
 import { getTopicById } from './data/topics';
 import {
-  GAMES,
   GAME_TITLES,
-  STANDALONE_GAMES,
+  isVersusGame,
   MATCH_LEVEL_GAMES,
+  needsTopic,
+  PLAYER_MODES,
+  STANDALONE_GAMES,
+  VERSUS_STANDALONE,
 } from './constants/games';
-import HomeScreen from './components/HomeScreen';
+import ModeSelect from './components/ModeSelect';
+import GameListScreen from './components/GameListScreen';
 import TopicSelect from './components/TopicSelect';
 import MatchLevelSelect from './components/MatchLevelSelect';
 import Game2Quiz from './components/Game2Quiz';
@@ -25,44 +29,54 @@ import Game13Catch from './components/Game13Catch';
 import Game14Emotion from './components/Game14Emotion';
 import Game15Puzzle from './components/Game15Puzzle';
 import Game16Trace from './components/Game16Trace';
+import GameVersus from './components/GameVersus';
 
 const SCREENS = {
   HOME: 'home',
+  GAMES: 'games',
   TOPICS: 'topics',
   MATCH_LEVEL: 'matchLevel',
   PLAY: 'play',
 };
 
 const TOPIC_GAMES = {
-  [GAMES.QUIZ]: Game2Quiz,
-  [GAMES.MATCH]: Game1Match,
-  [GAMES.DRAG]: Game3DragDrop,
-  [GAMES.COUNT]: Game4Count,
-  [GAMES.BIGGER]: Game5Bigger,
-  [GAMES.SAME_DIFF]: Game6SameDiff,
-  [GAMES.SOUND_GUESS]: Game8SoundGuess,
-  [GAMES.COLOR_FILL]: Game9ColorFill,
-  [GAMES.SHADOW]: Game10Shadow,
-  [GAMES.CATCH]: Game13Catch,
-  [GAMES.PUZZLE]: Game15Puzzle,
+  quiz: Game2Quiz,
+  match: Game1Match,
+  drag: Game3DragDrop,
+  count: Game4Count,
+  bigger: Game5Bigger,
+  sameDiff: Game6SameDiff,
+  soundGuess: Game8SoundGuess,
+  colorFill: Game9ColorFill,
+  shadow: Game10Shadow,
+  catch: Game13Catch,
+  puzzle: Game15Puzzle,
 };
 
 const STANDALONE_COMPONENTS = {
-  [GAMES.ORDER]: Game7Order,
-  [GAMES.FEED]: Game11Feed,
-  [GAMES.COLOR_MATCH]: Game12ColorMatch,
-  [GAMES.EMOTION]: Game14Emotion,
-  [GAMES.TRACE]: Game16Trace,
+  order: Game7Order,
+  feed: Game11Feed,
+  colorMatch: Game12ColorMatch,
+  emotion: Game14Emotion,
+  trace: Game16Trace,
 };
 
 export default function App() {
   const [screen, setScreen] = useState(SCREENS.HOME);
+  const [playerMode, setPlayerMode] = useState(null);
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedTopic, setSelectedTopic] = useState(null);
   const [matchPairCount, setMatchPairCount] = useState(4);
 
   const goHome = () => {
     setScreen(SCREENS.HOME);
+    setPlayerMode(null);
+    setSelectedGame(null);
+    setSelectedTopic(null);
+  };
+
+  const backToGameList = () => {
+    setScreen(SCREENS.GAMES);
     setSelectedGame(null);
     setSelectedTopic(null);
   };
@@ -70,8 +84,13 @@ export default function App() {
   const backToTopics = () => setScreen(SCREENS.TOPICS);
 
   const backFromPlay = () => {
+    if (isVersusGame(selectedGame)) {
+      if (VERSUS_STANDALONE.has(selectedGame)) backToGameList();
+      else backToTopics();
+      return;
+    }
     if (STANDALONE_GAMES.has(selectedGame)) {
-      goHome();
+      backToGameList();
     } else if (MATCH_LEVEL_GAMES.has(selectedGame)) {
       setScreen(SCREENS.MATCH_LEVEL);
     } else {
@@ -79,12 +98,17 @@ export default function App() {
     }
   };
 
+  const handleSelectMode = (mode) => {
+    setPlayerMode(mode);
+    setScreen(SCREENS.GAMES);
+  };
+
   const handleSelectGame = (game) => {
     setSelectedGame(game);
-    if (STANDALONE_GAMES.has(game)) {
-      setScreen(SCREENS.PLAY);
-    } else {
+    if (needsTopic(game)) {
       setScreen(SCREENS.TOPICS);
+    } else {
+      setScreen(SCREENS.PLAY);
     }
   };
 
@@ -112,6 +136,16 @@ export default function App() {
       onHome: goHome,
     };
 
+    if (isVersusGame(selectedGame)) {
+      return (
+        <GameVersus
+          mode={selectedGame}
+          topicId={selectedTopic}
+          {...commonProps}
+        />
+      );
+    }
+
     if (STANDALONE_COMPONENTS[selectedGame]) {
       const Standalone = STANDALONE_COMPONENTS[selectedGame];
       return <Standalone {...commonProps} />;
@@ -119,7 +153,7 @@ export default function App() {
 
     if (!selectedTopic) return null;
 
-    if (selectedGame === GAMES.MATCH) {
+    if (selectedGame === 'match') {
       return (
         <Game1Match
           topicId={selectedTopic}
@@ -139,13 +173,20 @@ export default function App() {
   return (
     <div className="app">
       {screen === SCREENS.HOME && (
-        <HomeScreen onSelectGame={handleSelectGame} />
+        <ModeSelect onSelectMode={handleSelectMode} />
+      )}
+      {screen === SCREENS.GAMES && playerMode && (
+        <GameListScreen
+          playerMode={playerMode}
+          onSelectGame={handleSelectGame}
+          onBack={goHome}
+        />
       )}
       {screen === SCREENS.TOPICS && selectedGame && (
         <TopicSelect
           gameTitle={GAME_TITLES[selectedGame]}
           onSelectTopic={handleSelectTopic}
-          onBack={goHome}
+          onBack={backToGameList}
         />
       )}
       {screen === SCREENS.MATCH_LEVEL && topic && (
