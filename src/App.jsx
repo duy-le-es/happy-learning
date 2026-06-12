@@ -29,6 +29,11 @@ import Game13Catch from './components/Game13Catch';
 import Game14Emotion from './components/Game14Emotion';
 import Game15Puzzle from './components/Game15Puzzle';
 import Game16Trace from './components/Game16Trace';
+import Game17SpeakRepeat from './components/Game17SpeakRepeat';
+import Game18SpeakAnimal from './components/Game18SpeakAnimal';
+import Game19SpeakWho from './components/Game19SpeakWho';
+import Game20SpeakSlow from './components/Game20SpeakSlow';
+import Game21SpeakSentence from './components/Game21SpeakSentence';
 import GameVersus from './components/GameVersus';
 
 const SCREENS = {
@@ -51,6 +56,11 @@ const TOPIC_GAMES = {
   shadow: Game10Shadow,
   catch: Game13Catch,
   puzzle: Game15Puzzle,
+  speakRepeat: Game17SpeakRepeat,
+  speakAnimal: Game18SpeakAnimal,
+  speakWho: Game19SpeakWho,
+  speakSlow: Game20SpeakSlow,
+  speakSentence: Game21SpeakSentence,
 };
 
 const STANDALONE_COMPONENTS = {

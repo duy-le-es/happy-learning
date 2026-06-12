@@ -42,26 +42,31 @@ function waitForVoices(timeoutMs = 2500) {
   });
 }
 
-export async function speakVietnamese(text) {
+export async function speakVietnamese(text, { rate = TTS_RATE, pitch = TTS_PITCH } = {}) {
   if (!window.speechSynthesis || !text) return false;
 
   const voices = await waitForVoices();
   const voice = pickVietnameseVoice(voices);
-  if (!voice) return false;
 
   return new Promise((resolve) => {
     window.speechSynthesis.cancel();
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'vi-VN';
-    utterance.voice = voice;
-    utterance.rate = TTS_RATE;
-    utterance.pitch = TTS_PITCH;
+    if (voice) utterance.voice = voice;
+    utterance.rate = rate;
+    utterance.pitch = pitch;
     utterance.volume = 1;
 
     utterance.onend = () => resolve(true);
     utterance.onerror = () => resolve(false);
+
+    // iOS Safari: giữ speech synthesis hoạt động
     window.speechSynthesis.speak(utterance);
+    if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
+      window.speechSynthesis.pause();
+      window.speechSynthesis.resume();
+    }
   });
 }
 

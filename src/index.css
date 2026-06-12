@@ -838,6 +838,143 @@ body {
   flex-shrink: 0;
 }
 
+/* Speech practice games */
+.game-speak {
+  position: relative;
+}
+
+.speak-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  min-height: 0;
+}
+
+.speak-card__visual {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  padding: 24px 32px;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: min(280px, 85vw);
+  min-height: min(220px, 40vh);
+}
+
+.speak-card__visual--hidden {
+  background: rgba(255, 255, 255, 0.75);
+}
+
+.speak-card__mystery {
+  font-size: 6rem;
+  line-height: 1;
+}
+
+.speak-card__label {
+  margin-top: 16px;
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  padding: 0 16px;
+}
+
+.speak-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 8px 16px 16px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.speak-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 130px;
+  min-height: 88px;
+  padding: 12px 20px;
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.speak-btn:active {
+  transform: scale(0.96);
+}
+
+.speak-btn__emoji {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.speak-btn__label {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #2d3436;
+}
+
+.speak-btn--try {
+  background: linear-gradient(135deg, #fd79a8, #e84393);
+  border-color: rgba(255, 255, 255, 0.95);
+}
+
+.speak-btn--try .speak-btn__label {
+  color: #fff;
+}
+
+.speak-btn--listen {
+  background: linear-gradient(135deg, #74b9ff, #0984e3);
+}
+
+.speak-btn--listen .speak-btn__label {
+  color: #fff;
+}
+
+.speak-btn--reveal {
+  background: linear-gradient(135deg, #ffeaa7, #fdcb6e);
+  min-width: 160px;
+}
+
+.speak-tip {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0 20px 20px;
+  flex-shrink: 0;
+}
+
+@media (min-width: 768px) {
+  .speak-card__label {
+    font-size: 2.2rem;
+  }
+
+  .speak-btn {
+    min-width: 150px;
+    min-height: 96px;
+  }
+
+  .speak-btn__emoji {
+    font-size: 2.4rem;
+  }
+
+  .speak-btn__label {
+    font-size: 1.1rem;
+  }
+}
+
 /* Game 4 — Count */
 .game-count__items {
   display: flex;

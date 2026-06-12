@@ -12,3 +12,7 @@ export const FEEDBACK = {
 export function questionAudio(itemId) {
   return `/sounds/voice/questions/${itemId}.mp3`;
 }
+
+export function repeatAudio(itemId) {
+  return `/sounds/voice/repeat/${itemId}.mp3`;
+}

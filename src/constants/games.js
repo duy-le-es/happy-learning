@@ -20,6 +20,11 @@ export const GAMES = {
   EMOTION: 'emotion',
   PUZZLE: 'puzzle',
   TRACE: 'trace',
+  SPEAK_REPEAT: 'speakRepeat',
+  SPEAK_ANIMAL: 'speakAnimal',
+  SPEAK_WHO: 'speakWho',
+  SPEAK_SLOW: 'speakSlow',
+  SPEAK_SENTENCE: 'speakSentence',
 };
 
 export const VERSUS_GAMES = {
@@ -48,6 +53,11 @@ export const GAME_TITLES = {
   [GAMES.EMOTION]: 'Cảm xúc',
   [GAMES.PUZZLE]: 'Ghép hình',
   [GAMES.TRACE]: 'Vẽ theo nét',
+  [GAMES.SPEAK_REPEAT]: 'Nói theo',
+  [GAMES.SPEAK_ANIMAL]: 'Con vật kêu',
+  [GAMES.SPEAK_WHO]: 'Ai đây',
+  [GAMES.SPEAK_SLOW]: 'Nói chậm',
+  [GAMES.SPEAK_SENTENCE]: 'Nói câu ngắn',
   [VERSUS_GAMES.QUIZ]: 'Chọn hình đúng',
   [VERSUS_GAMES.SOUND]: 'Nghe tiếng đoán',
   [VERSUS_GAMES.COUNT]: 'Đếm số',
@@ -71,6 +81,11 @@ export const MATCH_LEVEL_GAMES = new Set([GAMES.MATCH]);
 export const DEFAULT_ROUNDS = 6;
 
 export const SINGLE_PLAYER_LIST = [
+  { id: GAMES.SPEAK_REPEAT, emoji: '🎤', color: '#E84393' },
+  { id: GAMES.SPEAK_ANIMAL, emoji: '🐶', color: '#FF6B6B' },
+  { id: GAMES.SPEAK_WHO, emoji: '❓', color: '#6C5CE7' },
+  { id: GAMES.SPEAK_SLOW, emoji: '🐢', color: '#00B894' },
+  { id: GAMES.SPEAK_SENTENCE, emoji: '💬', color: '#F39C12' },
   { id: GAMES.QUIZ, emoji: '👆', color: '#6C63FF' },
   { id: GAMES.MATCH, emoji: '🃏', color: '#FF6B6B' },
   { id: GAMES.DRAG, emoji: '🎯', color: '#00B894' },

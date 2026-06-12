@@ -87,3 +87,68 @@ export const COLORING_SHAPES = [
   { id: 'house', emoji: '🏠' },
   { id: 'car', emoji: '🚗' },
 ];
+
+/** Tiếng kêu / mô tả ngắn cho trò luyện nói */
+export const ANIMAL_SOUNDS = {
+  cat: 'Meo meo',
+  dog: 'Gâu gâu',
+  duck: 'Quạc quạc',
+  cow: 'Ò ó o',
+  chicken: 'Cục tác cục tac',
+  pig: 'Ụt ịt',
+  sheep: 'Be be',
+  horse: 'Hí hí',
+  frog: 'Ộp ộp',
+  bee: 'Vù vù',
+  bird: 'Chíp chíp',
+  lion: 'Grao gao',
+  elephant: 'Tù tù',
+  monkey: 'U u u',
+  rabbit: 'Nhảy nhảy',
+  fish: 'Bơi bơi',
+  tiger: 'Grao gao',
+  bear: 'Gừ gừ',
+  whale: 'Phun phun',
+  dolphin: 'Chi chi chi',
+  shark: 'Rầm rầm',
+  octopus: 'Bụp bụp',
+  jellyfish: 'Bơi bơi',
+  crab: 'Cạch cạch',
+  lobster: 'Cắp cắp',
+  shrimp: 'Nhảy nhảy',
+  'sea-turtle': 'Bơi bơi',
+  seahorse: 'Bơi bơi',
+  seal: 'U u u',
+  penguin: 'Qua qua',
+  squid: 'Bơi bơi',
+  stingray: 'Bơi bơi',
+  clownfish: 'Bơi bơi',
+  blowfish: 'Phồng phồng',
+  walrus: 'U u u',
+  starfish: 'Bơi bơi',
+};
+
+export function getAnimalSound(itemId) {
+  return ANIMAL_SOUNDS[itemId] ?? null;
+}
+
+export const SPEAK_ROUNDS = 8;
+
+/** Cụm từ bé cần nói theo (vd. "Con ngựa"), không phải câu hỏi quiz đầy đủ */
+export function getRepeatPhrase(item) {
+  if (item.question) {
+    return item.question
+      .replace(/ ở đâu\?$/, '')
+      .replace(/ là màu nào\?$/, '')
+      .replace(/ là hình nào\?$/, '');
+  }
+  return item.name;
+}
+
+export const SPEAK_PROMPTS = {
+  repeat: 'Nghe và nói theo nhé!',
+  animal: 'Con vật kêu thế nào?',
+  who: 'Ai đây nhỉ?',
+  slow: 'Nói chậm chậm cùng nhé!',
+  sentence: 'Nói câu ngắn nhé!',
+};

@@ -8,13 +8,13 @@ export function useSpeech() {
     stopBrowserTts();
   }, []);
 
-  const speak = useCallback(async (text, { audioSrc } = {}) => {
+  const speak = useCallback(async (text, { audioSrc, rate } = {}) => {
     if (!text) return;
 
     await unlockAudio();
     stop();
 
-    if (audioSrc) {
+    if (audioSrc && rate == null) {
       try {
         await playAudioSrc(audioSrc);
         return;
@@ -23,7 +23,7 @@ export function useSpeech() {
       }
     }
 
-    await speakVietnamese(text);
+    await speakVietnamese(text, { rate });
   }, [stop]);
 
   const preload = useCallback((entries) => {
